@@ -26,10 +26,13 @@ class CChat : public CComponent
 	static constexpr float CHAT_HEIGHT_MIN = 50.0f;
 	static constexpr float CHAT_FONTSIZE_WIDTH_RATIO = 2.5f;
 
+public:
 	enum
 	{
 		MAX_LINES = 64,
 	};
+
+private:
 
 	CLineInputBuffered<MAX_CHAT_LENGTH> m_Input;
 	class CLine
@@ -65,6 +68,7 @@ class CChat : public CComponent
 	bool m_PrevScoreBoardShowed;
 	bool m_PrevShowChat;
 
+	public:
 	CLine m_aLines[MAX_LINES];
 	int m_CurrentLine;
 

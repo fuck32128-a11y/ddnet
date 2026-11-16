@@ -3,6 +3,11 @@
 
 #include "gameclient.h"
 
+// ── DDNet Cheat Client ────────────────────────────────────────────────────────
+#include "cheat/cheat.h"
+#include "cheat/ddnet_api.h"
+// ─────────────────────────────────────────────────────────────────────────────
+
 #include "components/background.h"
 #include "components/binds.h"
 #include "components/broadcast.h"
@@ -444,6 +449,10 @@ void CGameClient::OnInit()
 
 	m_Menus.FinishLoading();
 	log_trace("gameclient", "initialization finished after %.2fms", (time_get() - OnInitStart) * 1000.0f / (float)time_freq());
+
+	// ── Cheat Init ────────────────────────────────────────────────────────────
+	CCheat::Get().Init(this);
+	// ─────────────────────────────────────────────────────────────────────────
 }
 
 void CGameClient::OnUpdate()
@@ -496,6 +505,10 @@ void CGameClient::OnUpdate()
 	}
 
 	m_LocalServer.Update();
+
+	// ── Cheat Tick ────────────────────────────────────────────────────────────
+	CCheat::Get().OnTick();
+	// ─────────────────────────────────────────────────────────────────────────
 }
 
 void CGameClient::OnInput(const IInput::CEvent &Event)
@@ -507,6 +520,10 @@ void CGameClient::OnInput(const IInput::CEvent &Event)
 		if(pComponent->OnInput(Event) && (Event.m_Flags & ~IInput::FLAG_RELEASE) != 0)
 			break;
 	}
+
+	// ── Cheat Input ───────────────────────────────────────────────────────────
+	CCheat::Get().OnInput(Input());
+	// ─────────────────────────────────────────────────────────────────────────
 }
 
 void CGameClient::OnDummySwap()
@@ -818,6 +835,10 @@ void CGameClient::OnRender()
 	for(auto &pComponent : m_vpAll)
 		pComponent->OnRender();
 	Ui()->OnRenderTooltip();
+
+	// ── Cheat Render (after all components, on top) ────────────────────────────
+	CCheat::Get().OnRender();
+	// ─────────────────────────────────────────────────────────────────────────
 
 	// clear all events/input for this frame
 	Input()->Clear();

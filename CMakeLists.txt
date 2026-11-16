@@ -2641,6 +2641,12 @@ if(CLIENT)
     animstate.cpp
     animstate.h
     assets.cpp
+    cheat/cheat.cpp
+    cheat/cheat.h
+    cheat/ddnet_api.h
+    cheat/extra.h
+    cheat/extra_impl.cpp
+    cheat/module_registry.cpp
     component.cpp
     component.h
     components/background.cpp
